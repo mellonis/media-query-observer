@@ -137,4 +137,12 @@ describe('onMatch/onUnmatch callbacks', () => {
 
     expect(fromCounters).toEqual(fromMocks);
   });
+
+  test('the firstTime property of onMatch parameter is correct', () => {
+    [true, true].forEach((matches) => matchMediaListChangeEventListener.call(null, {
+      matches,
+    }));
+
+    expect(onMatchMock.mock.calls.map(([params]) => params.firstTime)).toEqual([true, false]);
+  });
 });

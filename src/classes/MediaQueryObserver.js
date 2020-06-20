@@ -1,6 +1,6 @@
 /* eslint-disable no-trailing-spaces */
 export default class MediaQueryObserver {
-  #firstTitme = true
+  #firstTime = true
 
   #isObserving = false
 
@@ -51,12 +51,12 @@ export default class MediaQueryObserver {
   // todo: (mellonis) use shorthand syntax in the future
   #execOnMacthCallback = function execOnMacthCallback() {
     if (this.#onMatch) {
-      const firstTitme = this.#firstTitme;
+      const firstTime = this.#firstTime;
 
-      this.#firstTitme = false;
+      this.#firstTime = false;
 
       this.#onMatch.call(null, {
-        firstTitme,
+        firstTime,
       });
     }
   }
