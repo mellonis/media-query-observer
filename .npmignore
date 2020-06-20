@@ -1,0 +1,9 @@
+.editorconfig
+.eslintrc.js
+.gitignore
+.travis.yml
+babel.config.js
+package-lock.json
+rollup.config.js
+src/**/test
+coverage

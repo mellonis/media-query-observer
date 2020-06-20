@@ -11,6 +11,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
+  ignorePatterns: ['dist'],
   rules: {
   },
   overrides: [

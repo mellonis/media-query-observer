@@ -2,7 +2,7 @@
 export default class MediaQueryObserver {
   #firstTitme = true
 
-  #isObserving = false;
+  #isObserving = false
 
   #mediaQueryList
 
