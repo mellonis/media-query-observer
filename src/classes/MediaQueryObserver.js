@@ -35,7 +35,7 @@ export default class MediaQueryObserver {
   startObserving() {
     if (this.#isObserving === false) {
       if (this.#compatibilityMode) {
-        this.addListener(this.#mediaQueryStatusMatchChanged);
+        this.#mediaQueryList.addListener(this.#mediaQueryStatusMatchChanged);
       } else {
         this.#mediaQueryList.addEventListener('change', this.#mediaQueryStatusMatchChanged);
       }
