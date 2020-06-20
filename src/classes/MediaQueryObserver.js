@@ -2,6 +2,8 @@
 export default class MediaQueryObserver {
   #firstTime = true
 
+  #compatibilityMode = false
+
   #isObserving = false
 
   #mediaQueryList
@@ -12,6 +14,10 @@ export default class MediaQueryObserver {
 
   constructor({ mediaQuery, onMatch, onUnmatch }) {
     this.#mediaQueryList = window.matchMedia(mediaQuery);
+
+    if (!this.#mediaQueryList.addEventListener) {
+      this.#compatibilityMode = true;
+    }
 
     if (typeof mediaQuery !== 'string') {
       throw new TypeError('mediaQuery should be a string');
@@ -28,14 +34,24 @@ export default class MediaQueryObserver {
 
   startObserving() {
     if (this.#isObserving === false) {
-      this.#mediaQueryList.addEventListener('change', this.#mediaQueryStatusMatchChanged);
+      if (this.#compatibilityMode) {
+        this.addListener(this.#mediaQueryStatusMatchChanged);
+      } else {
+        this.#mediaQueryList.addEventListener('change', this.#mediaQueryStatusMatchChanged);
+      }
+
       this.#isObserving = true;
     }
   }
 
   stopObserving() {
     if (this.#isObserving === true) {
-      this.#mediaQueryList.removeEventListener('change', this.#mediaQueryStatusMatchChanged);
+      if (this.#compatibilityMode) {
+        this.#mediaQueryList.removeListener(this.#mediaQueryStatusMatchChanged);
+      } else {
+        this.#mediaQueryList.removeEventListener('change', this.#mediaQueryStatusMatchChanged);
+      }
+
       this.#isObserving = false;
     }
   }

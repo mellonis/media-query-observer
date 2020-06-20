@@ -79,6 +79,8 @@ describe('start/stop observing', () => {
     expect(addEventListenerMock).toBeCalledTimes(2);
     expect(removeEventListenerMock).toBeCalledTimes(1);
   });
+
+  test.todo('compatibility mode');
 });
 
 describe('onMatch/onUnmatch callbacks', () => {
