@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces */
 export default class MediaQueryObserver {
   #firstTime = true
 
