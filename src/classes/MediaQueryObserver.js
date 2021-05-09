@@ -55,16 +55,15 @@ export default class MediaQueryObserver {
     }
   }
 
-  #mediaQueryStatusMatchChanged = function mediaQueryStatusMatchChanged({ matches }) {
+  #mediaQueryStatusMatchChanged = ({ matches }) => {
     if (matches) {
-      this.#execOnMacthCallback();
+      this.#execOnMatchCallback();
     } else {
       this.#execOnUnmatchCallback();
     }
-  }.bind(this);
+  };
 
-  // todo: (mellonis) use shorthand syntax in the future
-  #execOnMacthCallback = function execOnMacthCallback() {
+  #execOnMatchCallback = () => {
     if (this.#onMatch) {
       const firstTime = this.#firstTime;
 
@@ -76,8 +75,7 @@ export default class MediaQueryObserver {
     }
   }
 
-  // todo: (mellonis) use shorthand syntax in the future
-  #execOnUnmatchCallback = function execOnUnmatchCallback() {
+  #execOnUnmatchCallback = () => {
     if (this.#onUnmatch) {
       this.#onUnmatch.call(null);
     }

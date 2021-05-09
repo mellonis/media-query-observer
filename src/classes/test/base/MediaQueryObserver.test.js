@@ -1,5 +1,5 @@
 import { addEventListenerMock, removeEventListenerMock, matchesGetterMock } from './matchMedia.mock';
-import MediaQueryObserver from '../MediaQueryObserver';
+import MediaQueryObserver from '../../MediaQueryObserver';
 
 describe('constructor', () => {
   beforeAll(() => {
@@ -79,8 +79,6 @@ describe('start/stop observing', () => {
     expect(addEventListenerMock).toBeCalledTimes(2);
     expect(removeEventListenerMock).toBeCalledTimes(1);
   });
-
-  test.todo('compatibility mode');
 });
 
 describe('onMatch/onUnmatch callbacks', () => {
