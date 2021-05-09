@@ -1,7 +1,15 @@
 # media-query-observer
 🖥👀 Working with media queries in JS
 
-## Browsers support
+## Example
+
+```javascript
+new MediaQueryObserver({ 
+  mediaQuery: '(max-width: 1024px)',
+  onMatch: () => console.log(true),
+  onUnmatch: () => console.log(false),
+})
+```
 
 ## Browsers support
 
