@@ -1,17 +1,35 @@
+export interface OnMatchParams {
+  /** `true` on the first `onMatch` call of this observer only. */
+  firstTime: boolean;
+}
+
+export interface MediaQueryObserverOptions {
+  /** The media query to observe, e.g. `'(max-width: 1024px)'`. */
+  mediaQuery: string;
+  /** Called when the query matches, at once for the current state and on every change. */
+  onMatch?: (params: OnMatchParams) => void;
+  /** Called when the query does not match, at once for the current state and on every change. */
+  onUnmatch?: () => void;
+}
+
+interface MediaQueryChange {
+  matches: boolean;
+}
+
 export default class MediaQueryObserver {
-  #firstTime = true
+  #firstTime = true;
 
-  #compatibilityMode = false
+  #compatibilityMode = false;
 
-  #isObserving = false
+  #isObserving = false;
 
-  #mediaQueryList
+  #mediaQueryList: MediaQueryList;
 
-  #onMatch
+  #onMatch: ((params: OnMatchParams) => void) | null;
 
-  #onUnmatch
+  #onUnmatch: (() => void) | null;
 
-  constructor({ mediaQuery, onMatch, onUnmatch }) {
+  constructor({ mediaQuery, onMatch, onUnmatch }: MediaQueryObserverOptions) {
     this.#mediaQueryList = window.matchMedia(mediaQuery);
 
     if (!this.#mediaQueryList.addEventListener) {
@@ -31,7 +49,8 @@ export default class MediaQueryObserver {
     this.startObserving();
   }
 
-  startObserving() {
+  /** Resumes listening for changes. Does nothing while already observing. */
+  startObserving(): void {
     if (this.#isObserving === false) {
       if (this.#compatibilityMode) {
         this.#mediaQueryList.addListener(this.#mediaQueryStatusMatchChanged);
@@ -43,7 +62,8 @@ export default class MediaQueryObserver {
     }
   }
 
-  stopObserving() {
+  /** Stops listening for changes. Does nothing while stopped. */
+  stopObserving(): void {
     if (this.#isObserving === true) {
       if (this.#compatibilityMode) {
         this.#mediaQueryList.removeListener(this.#mediaQueryStatusMatchChanged);
@@ -55,7 +75,7 @@ export default class MediaQueryObserver {
     }
   }
 
-  #mediaQueryStatusMatchChanged = ({ matches }) => {
+  #mediaQueryStatusMatchChanged = ({ matches }: MediaQueryChange): void => {
     if (matches) {
       this.#execOnMatchCallback();
     } else {
@@ -63,7 +83,7 @@ export default class MediaQueryObserver {
     }
   };
 
-  #execOnMatchCallback = () => {
+  #execOnMatchCallback = (): void => {
     if (this.#onMatch) {
       const firstTime = this.#firstTime;
 
@@ -73,11 +93,11 @@ export default class MediaQueryObserver {
         firstTime,
       });
     }
-  }
+  };
 
-  #execOnUnmatchCallback = () => {
+  #execOnUnmatchCallback = (): void => {
     if (this.#onUnmatch) {
       this.#onUnmatch.call(null);
     }
-  }
+  };
 }

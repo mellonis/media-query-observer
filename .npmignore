@@ -1,9 +1,0 @@
-.editorconfig
-eslint.config.mjs
-.gitignore
-.travis.yml
-babel.config.js
-package-lock.json
-rollup.config.mjs
-src/**/test
-coverage

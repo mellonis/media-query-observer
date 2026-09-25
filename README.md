@@ -17,6 +17,8 @@ legacy `addListener` / `removeListener` API in browsers that lack
 npm install media-query-observer
 ```
 
+Ships as CommonJS and an ES module, with TypeScript typings for both.
+
 ## Usage
 
 ```javascript
@@ -31,6 +33,12 @@ const observer = new MediaQueryObserver({
 // later
 observer.stopObserving();
 observer.startObserving();
+```
+
+In TypeScript the option and callback types are exported too:
+
+```typescript
+import MediaQueryObserver, { type MediaQueryObserverOptions, type OnMatchParams } from 'media-query-observer';
 ```
 
 ## API

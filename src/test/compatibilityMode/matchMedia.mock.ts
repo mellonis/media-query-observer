@@ -1,10 +1,13 @@
-export const addEventListenerMock = jest.fn();
-export const removeEventListenerMock = jest.fn();
+import { jest } from '@jest/globals';
+type Listener = (change: { matches: boolean }) => void;
+
+export const addListenerMock = jest.fn<(listener: Listener) => void>();
+export const removeListenerMock = jest.fn<(listener: Listener) => void>();
 export const matchesGetterMock = jest.fn(() => false);
 
 const mockImplementationProto = {
-  addEventListener: addEventListenerMock,
-  removeEventListener: removeEventListenerMock,
+  addListener: addListenerMock,
+  removeListener: removeListenerMock,
 };
 
 Object.defineProperty(mockImplementationProto, 'matches', {
