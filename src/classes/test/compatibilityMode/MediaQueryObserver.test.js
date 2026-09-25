@@ -13,38 +13,38 @@ describe('start/stop observing', () => {
   });
 
   it('starts observing at instansiate', () => {
-    expect(addListenerMock).toBeCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the startObserving method doesn\'t add multiple event listeners ', () => {
     mqo.startObserving();
-    expect(addListenerMock).toBeCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('stops observing after calling the stopObserving method', () => {
     mqo.stopObserving();
-    expect(removeListenerMock).toBeCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the stopObserving method doesn\'t try to remove multiple event listeners ', () => {
     mqo.stopObserving();
     mqo.stopObserving();
-    expect(removeListenerMock).toBeCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('can stop and start observing again', () => {
-    expect(addListenerMock).toBeCalledTimes(1);
-    expect(removeListenerMock).toBeCalledTimes(0);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(0);
 
     mqo.stopObserving();
 
-    expect(addListenerMock).toBeCalledTimes(1);
-    expect(removeListenerMock).toBeCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
 
     mqo.startObserving();
 
-    expect(addListenerMock).toBeCalledTimes(2);
-    expect(removeListenerMock).toBeCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(2);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -58,7 +58,7 @@ describe('onMatch/onUnmatch callbacks', () => {
     removeListenerMock.mockClear();
     matchesGetterMock.mockClear();
 
-    // eslint-disable-next-line no-new
+     
     new MediaQueryObserver({
       mediaQuery: '',
       // todo: remove wrappers, were added in order to pass instanceof test
@@ -69,7 +69,7 @@ describe('onMatch/onUnmatch callbacks', () => {
     onMatchMock.mockClear();
     onUnmatchMock.mockClear();
 
-    // eslint-disable-next-line prefer-destructuring
+     
     matchMediaListChangeEventListener = addListenerMock.mock.calls[0][0];
   });
 
