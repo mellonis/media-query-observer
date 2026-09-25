@@ -1,6 +1,6 @@
 {
   "name": "media-query-observer",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Run a callback when a CSS media query starts or stops matching",
   "keywords": [
     "media-query",
@@ -16,33 +16,58 @@
   "bugs": {
     "url": "https://github.com/mellonis/media-query-observer/issues"
   },
-  "type": "main",
-  "main": "dist/index.js",
-  "module": "src/index.js",
+  "license": "MIT",
+  "author": "Ruslan Gilmullin <mellonis@yandex.ru>",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "scripts": {
-    "build": "npm run lint && npm run test && rollup -c",
-    "lint": "eslint src",
+    "lint": "oxlint src && tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "build": "npm run lint && npm run test && npm run build:only",
+    "build:only": "rm -rf dist && rollup -c && tsc -p tsconfig.build.json && cp dist/types/index.d.ts dist/index.d.mts && cp types/index.d.ts dist/index.d.ts && rm -rf dist/types",
+    "prepublishOnly": "npm run build"
   },
-  "author": "Ruslan Gilmullin <mellonis@yandex.ru>",
-  "license": "MIT",
+  "browserslist": [
+    "ie 11",
+    "edge >= 15",
+    "firefox >= 6",
+    "chrome >= 36",
+    "safari >= 8",
+    "opera >= 23"
+  ],
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
-    "@eslint/js": "^10.0.1",
+    "@babel/preset-typescript": "^7.29.7",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-terser": "^1.0.0",
-    "@types/jest": "^30.0.0",
     "babel-jest": "^30.5.2",
-    "eslint": "^10.11.0",
-    "globals": "^17.12.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
-    "rollup": "^4.63.5"
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
+    "oxlint": "^1.85.0",
+    "rollup": "^4.63.5",
+    "typescript": "^7.0.2"
   }
 }

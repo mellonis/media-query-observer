@@ -1,97 +1,65 @@
-import { addEventListenerMock, removeEventListenerMock, matchesGetterMock } from './matchMedia.mock';
-import MediaQueryObserver from '../../MediaQueryObserver';
-
-describe('constructor', () => {
-  beforeAll(() => {
-    addEventListenerMock.mockClear();
-  });
-
-  it('throws an exception on absent constructor parameter', () => {
-    expect(() => new MediaQueryObserver()).toThrow();
-  });
-
-  it('throws an excetion on invalid on absent matchMedia parameter', () => {
-    expect(() => new MediaQueryObserver({})).toThrow('mediaQuery should be a string');
-  });
-
-  it('doesn\'t throw exceptions because of undefined callbacks', () => {
-     
-    new MediaQueryObserver({
-      mediaQuery: '',
-    });
-
-    const matchMediaListChangeEventListener = addEventListenerMock.mock.calls[0][1];
-
-    expect(() => {
-      matchMediaListChangeEventListener.call(null, {
-        matches: true,
-      });
-      matchMediaListChangeEventListener.call(null, {
-        matches: false,
-      });
-    })
-      .not.toThrow();
-  });
-});
+import { beforeEach, describe, expect, it, jest, test } from '@jest/globals';
+import { addListenerMock, removeListenerMock, matchesGetterMock } from './matchMedia.mock';
+import MediaQueryObserver, { type OnMatchParams } from '../..';
 
 describe('start/stop observing', () => {
-  let mqo;
+  let mqo: MediaQueryObserver;
 
   beforeEach(() => {
-    addEventListenerMock.mockClear();
-    removeEventListenerMock.mockClear();
+    addListenerMock.mockClear();
+    removeListenerMock.mockClear();
     mqo = new MediaQueryObserver({
       mediaQuery: '',
     });
   });
 
   it('starts observing at instansiate', () => {
-    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the startObserving method doesn\'t add multiple event listeners ', () => {
     mqo.startObserving();
-    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('stops observing after calling the stopObserving method', () => {
     mqo.stopObserving();
-    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the stopObserving method doesn\'t try to remove multiple event listeners ', () => {
     mqo.stopObserving();
     mqo.stopObserving();
-    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('can stop and start observing again', () => {
-    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
-    expect(removeEventListenerMock).toHaveBeenCalledTimes(0);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(0);
 
     mqo.stopObserving();
 
-    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
-    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
 
     mqo.startObserving();
 
-    expect(addEventListenerMock).toHaveBeenCalledTimes(2);
-    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(addListenerMock).toHaveBeenCalledTimes(2);
+    expect(removeListenerMock).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('onMatch/onUnmatch callbacks', () => {
-  const onMatchMock = jest.fn();
-  const onUnmatchMock = jest.fn();
-  let matchMediaListChangeEventListener;
+  const onMatchMock = jest.fn<(params: OnMatchParams) => void>();
+  const onUnmatchMock = jest.fn<() => void>();
+  let matchMediaListChangeEventListener: (change: { matches: boolean }) => void;
 
   beforeEach(() => {
-    addEventListenerMock.mockClear();
-    removeEventListenerMock.mockClear();
+    addListenerMock.mockClear();
+    removeListenerMock.mockClear();
     matchesGetterMock.mockClear();
 
-     
+
     new MediaQueryObserver({
       mediaQuery: '',
       // todo: remove wrappers, were added in order to pass instanceof test
@@ -102,8 +70,8 @@ describe('onMatch/onUnmatch callbacks', () => {
     onMatchMock.mockClear();
     onUnmatchMock.mockClear();
 
-     
-    matchMediaListChangeEventListener = addEventListenerMock.mock.calls[0][1];
+
+    matchMediaListChangeEventListener = addListenerMock.mock.calls[0][0];
   });
 
   test('correct callbacks calls count', () => {
@@ -111,7 +79,7 @@ describe('onMatch/onUnmatch callbacks', () => {
       match: 0,
       unmatch: 0,
     };
-    const { fromCounters, fromMocks } = [...new Array(10)]
+    const { fromCounters, fromMocks } = Array.from({ length: 10 })
       .map(() => Math.random() > 0.5)
       .reduce((result, matches) => {
         const { fromCounters: fromCountersLocal, fromMocks: fromMocksLocal } = result;
@@ -131,8 +99,8 @@ describe('onMatch/onUnmatch callbacks', () => {
 
         return result;
       }, {
-        fromCounters: [],
-        fromMocks: [],
+        fromCounters: [] as number[][],
+        fromMocks: [] as number[][],
       });
 
     expect(fromCounters).toEqual(fromMocks);

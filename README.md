@@ -17,6 +17,8 @@ legacy `addListener` / `removeListener` API in browsers that lack
 npm install media-query-observer
 ```
 
+Ships as CommonJS and an ES module, with TypeScript typings for both.
+
 ## Usage
 
 ```javascript
@@ -31,6 +33,12 @@ const observer = new MediaQueryObserver({
 // later
 observer.stopObserving();
 observer.startObserving();
+```
+
+In TypeScript the option and callback types are exported too:
+
+```typescript
+import MediaQueryObserver, { type MediaQueryObserverOptions, type OnMatchParams } from 'media-query-observer';
 ```
 
 ## API
@@ -62,14 +70,16 @@ Stops listening for changes. Calling it while stopped does nothing.
 
 ## Development
 
-Requires Node.js 20 or newer.
+Node.js is only needed to build and test; the version is pinned in `.nvmrc`.
 
 ```sh
 npm install
-npm run lint
+npm run lint           # oxlint + tsc type check
 npm test               # or test:watch, test:coverage
-npm run build          # lint + test + rollup → dist/index.js
+npm run build          # lint + test + build → dist/
 ```
+
+Pushing a `v*` tag publishes to npm from CI.
 
 ## License
 
