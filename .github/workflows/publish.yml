@@ -1,0 +1,31 @@
+name: Publish
+
+# Publishes to npm when a version tag is pushed. Authentication is npm's
+# trusted publishing (OIDC): no token is stored, and npm attaches provenance.
+# The package's settings on npmjs.com must name this repository and this
+# workflow file (publish.yml).
+
+on:
+  push:
+    tags: [ 'v*' ]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        registry-url: https://registry.npmjs.org
+    # Trusted publishing needs npm 11.5.1 or newer.
+    - run: npm install -g npm@latest
+    - run: npm ci
+    - run: npm publish

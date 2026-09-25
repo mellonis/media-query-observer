@@ -70,14 +70,16 @@ Stops listening for changes. Calling it while stopped does nothing.
 
 ## Development
 
-Requires Node.js 20 or newer.
+Node.js is only needed to build and test; the version is pinned in `.nvmrc`.
 
 ```sh
 npm install
-npm run lint
+npm run lint           # oxlint + tsc type check
 npm test               # or test:watch, test:coverage
-npm run build          # lint + test + rollup → dist/index.js
+npm run build          # lint + test + build → dist/
 ```
+
+Pushing a `v*` tag publishes to npm from CI.
 
 ## License
 
