@@ -44,5 +44,13 @@
   },
   "jest": {
     "testEnvironment": "jsdom"
-  }
+  },
+  "browserslist": [
+    "ie 11",
+    "edge >= 15",
+    "firefox >= 6",
+    "chrome >= 36",
+    "safari >= 8",
+    "opera >= 23"
+  ]
 }
