@@ -1,6 +1,6 @@
 {
   "name": "media-query-observer",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Run a callback when a CSS media query starts or stops matching",
   "keywords": [
     "media-query",
