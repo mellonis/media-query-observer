@@ -1,7 +1,21 @@
 {
   "name": "media-query-observer",
   "version": "1.0.3",
-  "description": "",
+  "description": "Run a callback when a CSS media query starts or stops matching",
+  "keywords": [
+    "media-query",
+    "matchMedia",
+    "observer",
+    "responsive-design"
+  ],
+  "homepage": "https://github.com/mellonis/media-query-observer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mellonis/media-query-observer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mellonis/media-query-observer/issues"
+  },
   "type": "main",
   "main": "dist/index.js",
   "module": "src/index.js",
