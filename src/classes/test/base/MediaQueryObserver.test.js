@@ -15,7 +15,7 @@ describe('constructor', () => {
   });
 
   it('doesn\'t throw exceptions because of undefined callbacks', () => {
-    // eslint-disable-next-line no-new
+     
     new MediaQueryObserver({
       mediaQuery: '',
     });
@@ -46,38 +46,38 @@ describe('start/stop observing', () => {
   });
 
   it('starts observing at instansiate', () => {
-    expect(addEventListenerMock).toBeCalledTimes(1);
+    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the startObserving method doesn\'t add multiple event listeners ', () => {
     mqo.startObserving();
-    expect(addEventListenerMock).toBeCalledTimes(1);
+    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('stops observing after calling the stopObserving method', () => {
     mqo.stopObserving();
-    expect(removeEventListenerMock).toBeCalledTimes(1);
+    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
   });
 
   test('calling the stopObserving method doesn\'t try to remove multiple event listeners ', () => {
     mqo.stopObserving();
     mqo.stopObserving();
-    expect(removeEventListenerMock).toBeCalledTimes(1);
+    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
   });
 
   it('can stop and start observing again', () => {
-    expect(addEventListenerMock).toBeCalledTimes(1);
-    expect(removeEventListenerMock).toBeCalledTimes(0);
+    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeEventListenerMock).toHaveBeenCalledTimes(0);
 
     mqo.stopObserving();
 
-    expect(addEventListenerMock).toBeCalledTimes(1);
-    expect(removeEventListenerMock).toBeCalledTimes(1);
+    expect(addEventListenerMock).toHaveBeenCalledTimes(1);
+    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
 
     mqo.startObserving();
 
-    expect(addEventListenerMock).toBeCalledTimes(2);
-    expect(removeEventListenerMock).toBeCalledTimes(1);
+    expect(addEventListenerMock).toHaveBeenCalledTimes(2);
+    expect(removeEventListenerMock).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -91,7 +91,7 @@ describe('onMatch/onUnmatch callbacks', () => {
     removeEventListenerMock.mockClear();
     matchesGetterMock.mockClear();
 
-    // eslint-disable-next-line no-new
+     
     new MediaQueryObserver({
       mediaQuery: '',
       // todo: remove wrappers, were added in order to pass instanceof test
@@ -102,7 +102,7 @@ describe('onMatch/onUnmatch callbacks', () => {
     onMatchMock.mockClear();
     onUnmatchMock.mockClear();
 
-    // eslint-disable-next-line prefer-destructuring
+     
     matchMediaListChangeEventListener = addEventListenerMock.mock.calls[0][1];
   });
 
